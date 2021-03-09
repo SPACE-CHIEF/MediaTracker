@@ -13,10 +13,10 @@
   },
 
   "permissions": [
-    "activeTab", // Access to all tabs
-    "storage", // Access to storage
+    "activeTab",
+    "storage", 
     "tabs",
-    "scripting",
+    "scripting"
   ],
 
   "page_action": {
@@ -24,7 +24,7 @@
       "48": "logo/logo.png"
     },
     "default_title": "Moju",
-    "default_popup": "popup.html" // This is where we will handle most of the UI. 
+    "default_popup": "popup.html"
   },
 
   "web_accessible_resources": [
