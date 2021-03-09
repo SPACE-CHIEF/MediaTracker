@@ -1,0 +1,34 @@
+{
+
+  "manifest_version": 2,
+  "name": "Mujo",
+  "version": "1.0",
+  "description": "Tab that allows users to track what they watch, create favorite movie list, create movies to watch list and ultimately recommend them movies to watch based on their previous movie/anime history",
+  "icons": {
+    "48": "logo/logo.png"
+  },
+
+  "background": {
+    "service_worker": "background.js" 
+  },
+
+  "permissions": [
+    "activeTab", // Access to all tabs
+    "storage", // Access to storage
+    "tabs",
+    "scripting",
+  ],
+
+  "page_action": {
+    "default_icon": {
+      "48": "logo/logo.png"
+    },
+    "default_title": "Moju",
+    "default_popup": "popup.html" // This is where we will handle most of the UI. 
+  },
+
+  "web_accessible_resources": [
+    "logo/logo.png"
+  ]
+
+}
