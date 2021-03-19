@@ -1,7 +1,7 @@
 {
 
-  "manifest_version": 2,
-  "name": "Mujo popu",
+  "manifest_version": 3,
+  "name": "Mujo",
   "version": "1.0",
   "description": "Tab that allows users to track what they watch, create favorite movie list, create movies to watch list and ultimately recommend them movies to watch based on their previous movie/anime history",
   "icons": {
@@ -18,19 +18,23 @@
     "tabs",
     "scripting"
   ],
+  "host_permissions": [
+    "https://www.netflix.com/watch/*",
+    "https://www.crunchyroll.com/*",
+    "https://www.hulu.com/watch/*",
+    "https://www.amazon.com/*"
+  ],
   "options_page": "main/main.html",
    "options_ui": {
      "page": "main/main.html",
      "open_in_tab": true
    },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "48": "logo/logo.png"
     },
     "default_title": "Moju",
     "default_popup": "popup/popup.html"
   }
-
-
 
 }
