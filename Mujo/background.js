@@ -12,8 +12,6 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
-
 
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {

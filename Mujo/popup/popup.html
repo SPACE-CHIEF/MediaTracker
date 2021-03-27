@@ -4,20 +4,37 @@
 <head>
 
   <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-  <div class="main-container">
+  <div class="container pt-3" id="loginpage">
+    <h3>Welcome to Mujo!</h3>
+    <p>Enter your existing user info, or create a new user now to proceed!</p>
+    <form>
+      <div class="form-group">
+        <label for="emailID">Email address</label>
+        <input type="email" class="form-control" id="emailID" aria-describedby="emailHelp" placeholder="Enter email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary mb-3">Log In</button>
+      <button type="submit" class="btn btn-primary mb-3">Sign Up</button>
+    </form>
+  </div>  
+  <div class="main-container" style="display: none;">
     <img id="movie-art-img" class="movie-art" src="q.jpg">
     </img>
     <div class="popup-container">
       <b>Not playing.</b>
       <b>Go to a supported website to start tracking!</b>
     </div>
-  <div class="edit-controls">
-    <a href="../main/main.html" target="_blank">
-      <button class="btn"><i class = "fa fa-home"></i></button></a>
-  </div>
+    <div class="edit-controls">
+      <a href="../main/main.html" target="_blank">
+        <button class="btn"><i class = "fa fa-home"></i></button></a>
+    </div>
   </div>
 </body>
 </html>
