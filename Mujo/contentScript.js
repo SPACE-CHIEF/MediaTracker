@@ -1,40 +1,78 @@
 
 console.log("You are at " + window.location.href);
 
+var title = "";
+var episodeData = "";
+var seasonNum = "1";
+var episodeNum = "1";
+var episodeName = "No name given";
+
 if (window.location.href.includes("netflix.com")) {
     waitForElementToDisplay(".PlayerControlsNeo__button-control-row", function() {
 
-        var title = document.querySelector(".ellipsize-text h4")
-        //console.log("You are currently watching " + title.innerText)
-        alert("You are currently watching " + title.innerText)
+        title = document.querySelector(".ellipsize-text h4")
+        episodeData = document.querySelectorAll(".ellipsize-text span")[0].innerText
+        seasonNum = episodeData.charAt(1)
+        episodeNum = episodeData.substring(episodeData.indexOf("E")+1)
 
+        episodeName = episodeData[1].innerHTML
+
+        alert("You are currently watching " + title.innerText + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
+        
+        chrome.runtime.sendMessage({"title": title.innerText, "season": seasonNum, "episode": episodeNum}, (response) => {
+            console.log("RESPONSE RECIEVED: " + response.text);
+        })
+        
     }, 500, 9000)
 }
-if (window.location.href.includes("crunchyroll.com")) {
+else if (window.location.href.includes("crunchyroll.com")) {
 
     waitForElementToDisplay("h1 a span", function() {
 
-        var title = document.querySelector("h1 a span")
-        //console.log("You are currently watching " + title.innerText)
-        alert("You are currently watching " + title.innerText)
+        title = document.querySelector("h1 a span")
+        episodeData = document.querySelectorAll("#showmedia_about_media h4")[1].innerText
+
+        //There are some shows that don't have any seasons, such as Hunter x Hunter
+        if (episodeData.includes("Season")) {
+            seasonNum = episodeData.match(/\d+/)[0]
+            episodeNum = episodeData.substring(episodeData.indexOf(seasonNum) + 1).match(/\d+/)[0]
+        }
+        else{
+            episodeNum = episodeData.match(/\d+/)[0]
+        }
+        
+        episodeName = document.querySelector("#showmedia_about_info h4").innerText
+
+        alert("You are currently watching " + title.innerText + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
 
     }, 500, 9000)
 }
-if (window.location.href.includes("hulu.com")) {
+else if (window.location.href.includes("hulu.com")) {
 
     waitForElementToDisplay(".PlayerMetadata__titleText .ClampedText span", function() {
 
-        var title = document.querySelector(".PlayerMetadata__titleText .ClampedText span")
-        //console.log("You are currently watching " + title.innerText)
-        alert("You are currently watching " + title.innerText)
+        title = document.querySelector(".PlayerMetadata__titleText .ClampedText span")
+        episodeData = document.querySelector(".PlayerMetadata__seasonEpisodeText").innerText
+        seasonNum = episodeData.match(/\d+/)[0]
+        episodeNum = episodeData.substring(episodeData.indexOf(seasonNum) + 1).match(/\d+/)[0]
+
+        episodeName = document.querySelector(".PlayerMetadata__subTitleText").innerText
+
+        alert("You are currently watching " + title.innerText + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
     }, 200, 9000)
 }
-if (window.location.href.includes("amazon.com")) {
-    waitForElementToDisplay(".atvwebplayersdk-title-text", function() {
+else if (window.location.href.includes("amazon.com")) {
+    waitForElementToDisplay("div#dv-web-player.dv-player-fullscreen", function() {
 
-        var title = document.querySelector(".atvwebplayersdk-title-text")
-        //console.log("You are currently watching " + title.innerText)
-        alert("You are currently watching " + title.innerText)
+        waitForElementToDisplay(".atvwebplayersdk-subtitle-text", function() {
+            title = document.querySelector(".atvwebplayersdk-title-text")
+            episodeData = document.querySelector(".atvwebplayersdk-subtitle-text").innerText
+            seasonNum = episodeData.match(/\d+/)[0]
+            episodeNum = episodeData.substring(episodeData.indexOf(seasonNum) + 1).match(/\d+/)[0]
+
+            alert("You are currently watching " + title.innerText + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum)
+        }, 500, 9000)
+
     }, 500, 9000)
       
 }
