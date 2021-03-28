@@ -3,12 +3,12 @@
 <head>
 
     <link rel="stylesheet" href="popup.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
-    <div class="container pt-3" id="loginpage">
+    <div class="container pt-3" id="loginpage" style="display: none;">
         <h3>Welcome to Mujo!</h3>
         <p>Enter your existing user info, or create a new user now to proceed!</p>
         <form>
@@ -30,13 +30,14 @@
         <div class="popup-container">
             <b>Not playing.</b>
             <b>Go to a supported website to start tracking!</b>
+            <span id="test-user-id"></span>
         </div>
         <div class="edit-controls">
             <a href="../main/main.html" target="_blank">
-                <button class="btn"><i class="fa fa-home"></i></button>
+                <button class="btn btn-dark btn-block"><i class="fa fa-home"></i> Full Screen</button>
             </a>
-            <button class="btn btn-primary logout-btn">Logout</button>
         </div>
+        <button class="btn btn-danger logout-btn">Logout</button>
     </div>
 
     <script src="popup.js"></script>

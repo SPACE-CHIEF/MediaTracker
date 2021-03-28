@@ -13,6 +13,9 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+// The Realtime Database object
+var database = firebase.database();
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     console.log(changeInfo);
     // Add if statements for all websites.
@@ -30,6 +33,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }
 })
 
+var user;
+
 // This is the listener that waits for the contentScript to detect the movie/show and send that information back here so we can
 // access Firebase and The Movie DB API. Outside API's are not accessible from contentScripts.
 chrome.runtime.onMessage.addListener((message, sender, response) => {
@@ -44,7 +49,8 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
 
     /*****************************AUTHENTICATION HANDLING*************************/
     if (message.command == "checkAuth") {
-        var user = firebase.auth().currentUser
+        user = firebase.auth().currentUser
+        console.log("I AM IN THE BACKGROUND PAGE" + user);
         if (user) {
             response({
                 "type": "auth",
@@ -67,14 +73,18 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
                 // if a user forgets to sign out.
                 // ...
                 // New sign-in will be persisted with session persistence.
-                response({"type": "auth", "status": "success", "message": user})
+                user = firebase.auth().currentUser;
 
+                response({"type": "auth", "status": "success", "message": user})
+                
                 return firebase.auth().signInWithEmailAndPassword(message.email, message.password);
             })
             .catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
             });
+        
+        return true;
     }
     if(message.command == "logoutUser"){
         firebase.auth().signOut().then(() => {
@@ -87,14 +97,16 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
         firebase.auth().createUserWithEmailAndPassword(message.userId, message.newPass)
             .then((userCredential) => {
                 // Signed in 
-                var user = userCredential.user;
-                response({"type": "auth", "status": "success", "message": user})
+                var userNew = userCredential.user;
+                response({"type": "auth", "status": "success", "message": userNew})
             })
             .catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 response({"type": "auth", "status": "error", "message": errorMessage, "errorCode": errorCode})
             });
+
+        return true;
     }
 
     /*****************************ADDING TO DATABASE*************************/

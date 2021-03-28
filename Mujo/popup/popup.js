@@ -16,6 +16,7 @@ chrome.runtime.sendMessage({"command" : "checkAuth"}, (response) => {
     if (response.status == 'success') {
         document.querySelector('.main-container').style.display = 'grid';
         document.querySelector("#loginpage").style.display = "none";
+        document.querySelector("#test-user-id").innerText = response.message.uid
     } else {
         document.querySelector("#loginpage").style.display = "block";
     }
