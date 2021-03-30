@@ -1,61 +1,108 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <!--Library Icon-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="main.css">
-</head>
-<body>
+<!doctype html>
+<html lang="en">
+
+<head>
     <title>Moju</title>
-    <div id="sidebar">
-        <h1>Moju</h1>
-        <hr id="hr_a">
-        <h2><a href="#">Master lists</a></h2>
-        <h2><a href="#">My lists</a> </h2>
-        <h2><a href="#">Settings</a></h2>
-        <h2><a href="#">Disable</a></h2>
-    </div>
-    <div class="media">
-        <h1>Movies</h1>
-        <hr class="hr_media">
-        <div id="movies_container">
-            <div class="movie1">
-                <p>
-                    <img src="../img/groot.jpg" alt="Groot">
-                    Title: Guardians of the Galaxy Volume I <br>
-                    Director: Robert Saravia <br>
-                    Date watched: 02/2/2018 <br>
-                    <div class="rate">
-                        <input type="radio" id="star5" name="rate" value="5" /><label for="star5" title="text">5 stars</label>
-                        <input type="radio" id="star4" name="rate" value="4" /><label for="star4" title="text">4 stars</label>
-                        <input type="radio" id="star3" name="rate" value="3" /><label for="star3" title="text">3 stars</label>
-                        <input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="text">2 stars</label>
-                        <input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="text">1 star</label>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                </button>
+            </div>
+            <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+                <div class="user-logo">
+                    <div class="img" style="background-image: url(images/logo.jpg);"></div>
+                    <h3>Catriona Henderson</h3>
+                </div>
+            </div>
+            <ul class="list-unstyled components mb-5">
+                <li class="active">
+                    <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-star mr-3"></span>Movie Report</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content" class="p-4 p-md-5 pt-5">
+            <h1 class="text-center">Anime</h1>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="images/Akira.jpg" class="card-img-top" alt="Akira">
+                        <div class="card-body">
+                            <h5 class="card-title">Akira</h5>
+                            <p class="card-text">Director: Paul Bert <br>Cast: ..... <br>
+                                Description: ... <br> Location: ... <br></p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Rating: 4/5</small>
+                        </div>
                     </div>
-                </p>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="images/kaneki1.jpeg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Tokyo Ghoul</h5>
+                            <p class="card-text">Director: Paul Bert <br>Cast: ..... <br>
+                                Description: ... <br> Location: ... <br></p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Rating: 4/5</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="./images/full-metal.jpg" style="max-height: 500px;" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Full Metal Alchemist: Brotherhood</h5>
+                            <p class="card-text">Director: Paul Bert <br>Cast: ..... <br>
+                                Description: ... <br> Location: ... <br></p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Rating: 4/5</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="./images/colorful.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Colorful</h5>
+                            <p class="card-text">Director: Paul Bert <br>Cast: ..... <br>
+                            Description: ... <br> Location: ... <br></p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Rating: 4/5</small>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="movie2">
-
-            </div>
-            <a href="#">Click here for all movies</a>
         </div>
-    </div>
-    <div class="media">
-        <h1>Shows</h1>
-        <hr class="hr_media">
-        <div id="shows_container"> <!----This will be a container filled with the movies-->
-
-        </div>
-    </div>
-    <div class="media">
-        <h1>Anime</h1>
-        <hr class="hr_media">
-        <div id="anime_container"> <!--Container for anime -->
-
-        </div>
-    </div>
-    <!--JQuery (might be needed)--->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="main.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+            crossorigin="anonymous"></script>
+        <script src="js/main.js"></script>
 </body>
+
 </html>
