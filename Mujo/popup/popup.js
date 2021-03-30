@@ -1,4 +1,15 @@
 
+chrome.runtime.sendMessage({"command" : "checkAuth"}, (response) => {
+    console.log(response);
+    if (response.status == 'success') {
+        document.querySelector('.main-container').style.display = 'grid';
+        document.querySelector("#loginpage").style.display = "none";
+        document.querySelector("#test-user-id").innerText = response.message.uid
+    } else {
+        document.querySelector("#loginpage").style.display = "block";
+    }
+})
+
 document.querySelector("#login-btn").addEventListener("click", () => {
     loginUser();
 })
@@ -9,17 +20,6 @@ document.querySelector("#signup-btn").addEventListener("click", () => {
 
 document.querySelector(".logout-btn").addEventListener("click", () => {
     logoutUser();
-})
-
-chrome.runtime.sendMessage({"command" : "checkAuth"}, (response) => {
-    console.log(response);
-    if (response.status == 'success') {
-        document.querySelector('.main-container').style.display = 'grid';
-        document.querySelector("#loginpage").style.display = "none";
-        document.querySelector("#test-user-id").innerText = response.message.uid
-    } else {
-        document.querySelector("#loginpage").style.display = "block";
-    }
 })
 
 function loginUser() {

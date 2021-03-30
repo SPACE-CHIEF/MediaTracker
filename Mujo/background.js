@@ -4,6 +4,7 @@ self.importScripts("./firebase/firebase-app.js", "./firebase/firebase-auth.js", 
 var firebaseConfig = {
     apiKey: "AIzaSyDPbdTfxqjz-OWp-cXc6TmMw65YeBptGjM",
     authDomain: "moju-e6cff.firebaseapp.com",
+    databaseURL: "https://moju-e6cff-default-rtdb.firebaseio.com",
     projectId: "moju-e6cff",
     storageBucket: "moju-e6cff.appspot.com",
     messagingSenderId: "508414131397",
