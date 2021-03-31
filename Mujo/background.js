@@ -36,6 +36,18 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 var user;
 
+//Is constantly checking if the user's state changes; from logged in -> logged out or vice versa.
+firebase.auth().onAuthStateChanged((usr) => {
+    console.log("From authStateChanged.");
+    console.log(usr)
+    //If the user is logged in, send a message to popup.js that we are logged in.
+    if (usr) {
+        chrome.runtime.sendMessage({"command": "stateChanged", "logged_in": true, "uid": usr.uid}, (response) => {})
+    }
+
+    return true;
+})
+
 // This is the listener that waits for the contentScript to detect the movie/show and send that information back here so we can
 // access Firebase and The Movie DB API. Outside API's are not accessible from contentScripts.
 chrome.runtime.onMessage.addListener((message, sender, response) => {
@@ -51,7 +63,8 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
     /*****************************AUTHENTICATION HANDLING*************************/
     if (message.command == "checkAuth") {
         user = firebase.auth().currentUser
-        console.log("I AM IN THE BACKGROUND PAGE" + user);
+        console.log("This is from the onMessage listener.");
+        console.log(user);
         if (user) {
             response({
                 "type": "auth",
@@ -65,15 +78,12 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
                 "message": false
             })
         }
+        return true;
     }
     if (message.command == "loginUser") {
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
             .then(() => {
-                // Existing and future Auth states are now persisted in the current
-                // session only. Closing the window would clear any existing state even
-                // if a user forgets to sign out.
-                // ...
-                // New sign-in will be persisted with session persistence.
+                
                 user = firebase.auth().currentUser;
 
                 response({"type": "auth", "status": "success", "message": user})
@@ -93,6 +103,8 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
         }).catch((error) => {
             console.log(error)
         });
+
+        return true;
     }
     if(message.command == "createUser"){
         firebase.auth().createUserWithEmailAndPassword(message.userId, message.newPass)

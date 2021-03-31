@@ -1,14 +1,4 @@
-
-chrome.runtime.sendMessage({"command" : "checkAuth"}, (response) => {
-    console.log(response);
-    if (response.status == 'success') {
-        document.querySelector('.main-container').style.display = 'grid';
-        document.querySelector("#loginpage").style.display = "none";
-        document.querySelector("#test-user-id").innerText = response.message.uid
-    } else {
-        document.querySelector("#loginpage").style.display = "block";
-    }
-})
+checkAuth();
 
 document.querySelector("#login-btn").addEventListener("click", () => {
     loginUser();
@@ -21,6 +11,34 @@ document.querySelector("#signup-btn").addEventListener("click", () => {
 document.querySelector(".logout-btn").addEventListener("click", () => {
     logoutUser();
 })
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if(message.command == "stateChanged" && message.logged_in){
+        document.querySelector('.main-container').style.display = 'grid';
+        document.querySelector("#loginpage").style.display = "none";
+        document.querySelector("#test-user-id").innerText = message.uid
+    }
+    else{
+        document.querySelector("#loginpage").style.display = "block";
+    }
+    sendResponse({"thanks": "thanks"})
+    return true;
+})
+
+function checkAuth() {
+    chrome.runtime.sendMessage({"command" : "checkAuth"}, (response) => {
+        console.log(response);
+        if (response.status == 'success') {
+            document.querySelector('.main-container').style.display = 'grid';
+            document.querySelector("#loginpage").style.display = "none";
+            document.querySelector("#test-user-id").innerText = response.message.uid
+        } else {
+            document.querySelector("#loginpage").style.display = "block";
+        }
+
+        return true;
+    })
+}
 
 function loginUser() {
     var email = document.querySelector("#emailID").value;
@@ -35,6 +53,7 @@ function loginUser() {
         } else {
             console.log("USER NOT AUTHENTICATED. from loginUser");
         }
+
     })
 }
 
