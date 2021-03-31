@@ -34,15 +34,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }
 })
 
-var user;
-
 //Is constantly checking if the user's state changes; from logged in -> logged out or vice versa.
-firebase.auth().onAuthStateChanged((usr) => {
+firebase.auth().onAuthStateChanged((user) => {
     console.log("From authStateChanged.");
-    console.log(usr)
+    console.log(user)
     //If the user is logged in, send a message to popup.js that we are logged in.
-    if (usr) {
-        chrome.runtime.sendMessage({"command": "stateChanged", "logged_in": true, "uid": usr.uid}, (response) => {})
+    if (user) {
+        chrome.runtime.sendMessage({"command": "stateChanged", "logged_in": true, "uid": user.uid}, (response) => {})
     }
 
     return true;
@@ -53,16 +51,16 @@ firebase.auth().onAuthStateChanged((usr) => {
 chrome.runtime.onMessage.addListener((message, sender, response) => {
 
     if (message.command == "contentScript") {
+        var user = firebase.auth().currentUser
         console.log("MESSAGE RECIEVED FROM CONTENT SCRIPT");
         console.log("Show Title: " + message.title + "\nSeason Number: " + message.season + "\nEpisode Number: " + message.episode);
-        response({
-            "text": "Succesful operation brother."
-        })
+        
+        response({"text": "Succesful operation brother."})
     }
 
     /*****************************AUTHENTICATION HANDLING*************************/
     if (message.command == "checkAuth") {
-        user = firebase.auth().currentUser
+        var user = firebase.auth().currentUser
         console.log("This is from the onMessage listener.");
         console.log(user);
         if (user) {
@@ -84,7 +82,7 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
             .then(() => {
                 
-                user = firebase.auth().currentUser;
+                var user = firebase.auth().currentUser;
 
                 response({"type": "auth", "status": "success", "message": user})
                 
