@@ -29,7 +29,7 @@ if (window.location.href.includes("netflix.com")) {
         }
         else{
             alert("You are currently watching a MOVIE!" + "\nMovie title: " + title)
-            chrome.runtime.sendMessage({"type": "movie","title": title.innerText, "command": "contentScript"}, (response) => {
+            chrome.runtime.sendMessage({"type": "movie","title": title, "command": "contentScript"}, (response) => {
                 console.log("RESPONSE RECIEVED: " + response.text);
             })
         }

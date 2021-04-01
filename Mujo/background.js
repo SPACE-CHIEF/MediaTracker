@@ -60,8 +60,19 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
 
     if (message.command == "contentScript") {
         var user = firebase.auth().currentUser
-        console.log("MESSAGE RECIEVED FROM CONTENT SCRIPT");
-        console.log("Show Title: " + message.title + "\nSeason Number: " + message.season + "\nEpisode Number: " + message.episode);
+        var episodeInfo = "Season " + message.season + ", Episode " + message.episode
+        var mediaTitle = message.title
+        console.log("Media Title: " + mediaTitle);
+        if (user) {
+            if(message.type == "tv"){
+                var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/tv_shows/" + mediaTitle)
+                refLocations.child(episodeInfo).set(true);
+            }
+            else if (message.type == "movie") {
+                var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/movies")
+                refLocations.child(mediaTitle).set(true);
+            }
+        }
         
         response({"text": "Succesful operation brother."})
     }
