@@ -55,7 +55,10 @@ else if (window.location.href.includes("crunchyroll.com")) {
         episodeName = document.querySelector("#showmedia_about_info h4").innerText
 
         alert("You are currently watching " + title.innerText + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
-
+        
+        chrome.runtime.sendMessage({"type": "tv","title": title.innerText, "season": seasonNum, "episode": episodeNum, "command": "contentScript"}, (response) => {
+            console.log("RESPONSE RECIEVED: " + response.text);
+        })
     }, 500, 9000)
 }
 else if (window.location.href.includes("hulu.com/watch")) {
