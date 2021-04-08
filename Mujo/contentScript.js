@@ -1,6 +1,8 @@
 
 console.log("You are at " + window.location.href);
 
+var currURL = window.location.href
+
 var title = "";
 var episodeData = "";
 var seasonNum = "1";
@@ -23,13 +25,13 @@ if (window.location.href.includes("netflix.com")) {
 
             alert("You are currently watching a TV SHOW!" + title + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
             
-            chrome.runtime.sendMessage({"type": "tv","title": title, "season": seasonNum, "episode": episodeNum, "command": "contentScript"}, (response) => {
+            chrome.runtime.sendMessage({"type": "tv","title": title, "season": seasonNum, "episode": episodeNum, "command": "contentScript", "url": currURL}, (response) => {
                 console.log("RESPONSE RECIEVED: " + response.text);
             })
         }
         else{
             alert("You are currently watching a MOVIE!" + "\nMovie title: " + title)
-            chrome.runtime.sendMessage({"type": "movie","title": title, "command": "contentScript"}, (response) => {
+            chrome.runtime.sendMessage({"type": "movie","title": title, "command": "contentScript", "url": currURL}, (response) => {
                 console.log("RESPONSE RECIEVED: " + response.text);
             })
         }
@@ -56,7 +58,7 @@ else if (window.location.href.includes("crunchyroll.com")) {
 
         alert("You are currently watching " + title.innerText + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
         
-        chrome.runtime.sendMessage({"type": "tv","title": title.innerText, "season": seasonNum, "episode": episodeNum, "command": "contentScript"}, (response) => {
+        chrome.runtime.sendMessage({"type": "tv","title": title.innerText, "season": seasonNum, "episode": episodeNum, "command": "contentScript", "url": currURL}, (response) => {
             console.log("RESPONSE RECIEVED: " + response.text);
         })
     }, 500, 9000)
@@ -83,13 +85,13 @@ else if (window.location.href.includes("hulu.com/watch")) {
 
                 alert("You are currently watching a TV Show!\nTitle: " + title + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
                 
-                chrome.runtime.sendMessage({"type": "tv","title": title, "season": seasonNum, "episode": episodeNum, "command": "contentScript"}, (response) => {
+                chrome.runtime.sendMessage({"type": "tv","title": title, "season": seasonNum, "episode": episodeNum, "command": "contentScript", "url": currURL}, (response) => {
                     console.log("RESPONSE RECIEVED: " + response.text);
                 })
             }
             else if (arrayForDetection.length < 4){
                 alert("You are currently watching a MOVIE!" + "\nMovie title: " + title)
-                chrome.runtime.sendMessage({"type": "movie","title": title, "command": "contentScript"}, (response) => {
+                chrome.runtime.sendMessage({"type": "movie","title": title, "command": "contentScript", "url": currURL}, (response) => {
                     console.log("RESPONSE RECIEVED: " + response.text);
                 })
             }
@@ -110,7 +112,7 @@ else if (window.location.href.includes("amazon.com")) {
                 //If episodeData is null, you are watching a Movie!
                 if (episodeData.length == 0) {
                     alert("You are currently watching a MOVIE!" + "\nMovie title: " + title.innerText)
-                    chrome.runtime.sendMessage({"type": "movie","title": title.innerText, "command": "contentScript"}, (response) => {
+                    chrome.runtime.sendMessage({"type": "movie","title": title.innerText, "command": "contentScript", "url": currURL}, (response) => {
                         console.log("RESPONSE RECIEVED: " + response.text);
                     })
                 }
@@ -120,7 +122,7 @@ else if (window.location.href.includes("amazon.com")) {
                 
                     alert("You are currently watching a TV Show!\nTitle: " + title.innerText + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
                         
-                    chrome.runtime.sendMessage({"type": "tv","title": title.innerText, "season": seasonNum, "episode": episodeNum, "command": "contentScript"}, (response) => {
+                    chrome.runtime.sendMessage({"type": "tv","title": title.innerText, "season": seasonNum, "episode": episodeNum, "command": "contentScript", "url": currURL}, (response) => {
                         console.log("RESPONSE RECIEVED: " + response.text);
                     })
                 }    

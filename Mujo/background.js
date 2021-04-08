@@ -66,11 +66,11 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
         if (user) {
             if(message.type == "tv"){
                 var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/tv_shows/" + mediaTitle)
-                refLocations.child(episodeInfo).set(true);
+                refLocations.child(episodeInfo).set(message.url);
             }
             else if (message.type == "movie") {
                 var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/movies")
-                refLocations.child(mediaTitle).set(true);
+                refLocations.child(mediaTitle).set(message.url);
             }
         }
         
