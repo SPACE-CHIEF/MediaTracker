@@ -54,6 +54,15 @@ firebase.auth().onAuthStateChanged((user) => {
     return true;
 })
 
+var lists = database.ref('users/' + firebase.auth().currentUser.uid + "/master_lists/movies/");
+lists.on('child_added', function(childSnapshot, prevChildKey) {
+	var data = childSnapshot.val();
+	for(child in data){
+		// chrome.runtime.sendMessage({"command": "item_added", "title": child}, (response) => {})
+        console.log(child);
+	}
+});
+
 // This is the listener that waits for the contentScript to detect the movie/show and send that information back here so we can
 // access Firebase and The Movie DB API. Outside API's are not accessible from contentScripts.
 chrome.runtime.onMessage.addListener((message, sender, response) => {
