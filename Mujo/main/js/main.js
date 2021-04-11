@@ -18,10 +18,12 @@
 
 })(jQuery);
 
-chrome.runtime.onMessage.addListener((message, sender, response) => {
-	if(message.command == "item_added"){
-		console.log(message.title);
-	}
+chrome.runtime.sendMessage({"command": "getMovies"}, (response) => {
+    console.log("getMovies was executed");
+    console.log(response.data);
+    for (const key in response.data) {
+        console.log(key)
+    }
 });
 // Set up firebase
 // var firebaseConfig = {

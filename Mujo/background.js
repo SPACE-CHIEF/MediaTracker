@@ -18,7 +18,6 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    console.log(changeInfo.audible);
 
     try {
         if (changeInfo.url != undefined || changeInfo.audible != undefined) {
@@ -44,8 +43,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 //Is constantly checking if the user's state changes; from logged in -> logged out or vice versa.
 firebase.auth().onAuthStateChanged((user) => {
-    console.log("From authStateChanged.");
-    console.log(user)
     //If the user is logged in, send a message to popup.js that we are logged in.
     if (user) {
         chrome.runtime.sendMessage({"command": "stateChanged", "logged_in": true, "uid": user.uid}, (response) => {})
@@ -54,19 +51,20 @@ firebase.auth().onAuthStateChanged((user) => {
     return true;
 })
 
-var lists = database.ref('users/' + firebase.auth().currentUser.uid + "/master_lists/movies/");
-lists.on('child_added', function(childSnapshot, prevChildKey) {
-	var data = childSnapshot.val();
-	for(child in data){
-		// chrome.runtime.sendMessage({"command": "item_added", "title": child}, (response) => {})
-        console.log(child);
-	}
-});
+
 
 // This is the listener that waits for the contentScript to detect the movie/show and send that information back here so we can
 // access Firebase and The Movie DB API. Outside API's are not accessible from contentScripts.
 chrome.runtime.onMessage.addListener((message, sender, response) => {
 
+    if (message.command == "getMovies") {
+        var currentUser = firebase.auth().currentUser
+        if (currentUser) {
+            firebase.database().ref("users/" + currentUser.uid + "/master_lists/movies").once("value").then(function(snapshot) {
+                response({"data": snapshot.val()})
+            })
+        }
+    }
     if (message.command == "contentScript") {
         var user = firebase.auth().currentUser
         var episodeInfo = "Season " + message.season + ", Episode " + message.episode
