@@ -65,6 +65,14 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
             })
         }
     }
+    if (message.command == "getTV") {
+        var currentUser = firebase.auth().currentUser
+        if (currentUser) {
+            firebase.database().ref("users/" + currentUser.uid + "/master_lists/tv_shows").once("value").then(function(snapshot) {
+                response({"data": snapshot.val()})
+            })
+        }
+    }
     if (message.command == "contentScript") {
         var user = firebase.auth().currentUser
         var episodeInfo = "Season " + message.season + ", Episode " + message.episode
