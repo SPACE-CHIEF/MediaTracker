@@ -66,6 +66,7 @@ chrome.runtime.sendMessage({ "command": "getMovies" }, (response) => {
 				.then(credits => {
 					let addModal = ``
 					let crew = credits["crew"];
+                    
 					for (const member of crew) {
 						if (member.known_for_department == "Directing") {
 							
@@ -80,7 +81,7 @@ chrome.runtime.sendMessage({ "command": "getMovies" }, (response) => {
 											</button>
 										</div>
 										<div class="modal-body">
-											<p><a href="${response.data[key]}" target="_blank">Keep watching</a></p>
+											<p><a href="${response.data[keys[counter]]}" target="_blank">Keep watching</a></p>
 											<p>Director: ${member.name} </p>
 										</div>
 										<div class="modal-footer">
@@ -149,7 +150,7 @@ chrome.runtime.sendMessage({ "command": "getTV" }, (response) => {
 					let crew = credits["crew"];
 					for (const member of crew) {
 						if (member.known_for_department == "Directing") {
-							
+							console.log(response.data[key]);
 							addModal = 
 							`<div class="modal fade" id="mytvModal${counter}" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered">
