@@ -28,7 +28,6 @@ chrome.runtime.sendMessage({ "command": "getMovies" }, (response) => {
 		var key = keys[counter]
 		var posterURL = ""
 		const baseImagePath = "https://image.tmdb.org/t/p/original/"
-
 		var movieID = fetch(`https://api.themoviedb.org/3/search/movie?api_key=c9e5f6b44a8037f35894aef02579205a&language=en-US&query=${key}&page=1`)
 			.then(res => {
 				return res.json()
@@ -66,7 +65,16 @@ chrome.runtime.sendMessage({ "command": "getMovies" }, (response) => {
 				.then(credits => {
 					let addModal = ``
 					let crew = credits["crew"];
-                    
+					var cast = "";
+					if(credits.cast[0] && credits.cast[1] && credits.cast[2]){
+						cast += credits.cast[0].name + ", " + credits.cast[1].name + ", " + credits.cast[2].name + "."
+					}else if(credits.cast[0] && credits.cast[1]){
+						cast += credits.cast[0].name + ", " + credits.cast[1].name + ".";
+					}else if(credits.cast[0]){
+						cast += credits.cast[0].name
+					}else{
+						cast += "Sorry cast information is not available."
+					}
 					for (const member of crew) {
 						if (member.known_for_department == "Directing") {
 							
@@ -75,13 +83,14 @@ chrome.runtime.sendMessage({ "command": "getMovies" }, (response) => {
 								<div class="modal-dialog modal-dialog-centered">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="myModalLabel">Title</h5>
+											<h5 class="modal-title" id="myModalLabel">${keys[counter]}</h5>
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</div>
 										<div class="modal-body">
 											<p><a href="${response.data[keys[counter]]}" target="_blank">Keep watching</a></p>
+											<p>Cast: ${cast}</p>
 											<p>Director: ${member.name} </p>
 										</div>
 										<div class="modal-footer">
@@ -148,21 +157,29 @@ chrome.runtime.sendMessage({ "command": "getTV" }, (response) => {
 				.then(credits => {
 					let addModal = ``
 					let crew = credits["crew"];
+					var cast = "";
+					if(credits.cast[0] && credits.cast[1] && credits.cast[2]){
+						cast += credits.cast[0].name + ", " + credits.cast[1].name + ", " + credits.cast[2].name + "."
+					}else if(credits.cast[0] && credits.cast[1]){
+						cast += credits.cast[0].name + ", " + credits.cast[1].name + ".";
+					}else{
+						cast += "Sorry cast information is not available."
+					}
 					for (const member of crew) {
 						if (member.known_for_department == "Directing") {
-							console.log(response.data[key]);
 							addModal = 
 							`<div class="modal fade" id="mytvModal${counter}" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="myModalLabel">Title</h5>
+											<h5 class="modal-title" id="myModalLabel">${keys[counter]}</h5>
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</div>
 										<div class="modal-body">
 											<p><a href="${response.data[key]}" target="_blank">Keep watching</a></p>
+											<p>Cast: ${cast} </p>
 											<p>Director: ${member.name} </p>
 										</div>
 										<div class="modal-footer">
@@ -181,23 +198,3 @@ chrome.runtime.sendMessage({ "command": "getTV" }, (response) => {
 	}
 
 });
-
-/*
-	Display a card with the title and episode.
-	@param media type of media (Movie, Anime, Show).
-	@return none.
-*/
-// function displayCard(media) {
-// 	for(title in media){
-
-// 	}
-// }
-
-/*
-	create a list based on the type of media (Movie, Anime, Show)
-	@param listType (Movie, Anime, Show).
-	@return none.
-*/
-// function displayList(listType) {
-
-// }
