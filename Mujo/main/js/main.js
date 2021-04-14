@@ -162,6 +162,8 @@ chrome.runtime.sendMessage({ "command": "getTV" }, (response) => {
 						cast += credits.cast[0].name + ", " + credits.cast[1].name + ", " + credits.cast[2].name + "."
 					}else if(credits.cast[0] && credits.cast[1]){
 						cast += credits.cast[0].name + ", " + credits.cast[1].name + ".";
+					}else if(credits.cast[0]){
+						cast += credits.cast[0].name
 					}else{
 						cast += "Sorry cast information is not available."
 					}
