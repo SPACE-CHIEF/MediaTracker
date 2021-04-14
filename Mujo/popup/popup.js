@@ -12,7 +12,7 @@ document.querySelector(".logout-btn").addEventListener("click", () => {
     logoutUser();
 })
 
-var port = chrome.runtime.connect(null, {name: 'hi'});
+var port = chrome.runtime.connect(null, {name: 'port1'});
 
 port.onDisconnect.addListener(obj => {
   console.log('disconnected port');
@@ -20,9 +20,10 @@ port.onDisconnect.addListener(obj => {
 
 port.onMessage.addListener((msg) => {
     if (msg.command == "mediaFound") {
-        console.log("mediaFound!!");
         document.querySelector("#mediaTitle").innerText = msg.title
         document.querySelector("#mediaInfo").innerText = msg.episodeInfo
+        document.getElementById("watching").innerText = "You are watching..."
+        document.querySelector("#movie-art-img").setAttribute("src", msg.image)
     }
 })
 
@@ -30,7 +31,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if(message.command == "stateChanged" && message.logged_in){
         document.querySelector('.main-container').style.display = 'grid';
         document.querySelector("#loginpage").style.display = "none";
-        document.querySelector("#test-user-id").innerText = message.uid
+        document.querySelector("#test-user-id").innerText = message.user.email
         return true;
     }
     else if(message.command == "stateChanged" && !message.logged_in){
@@ -45,7 +46,7 @@ function checkAuth() {
         if (response.status == 'success') {
             document.querySelector('.main-container').style.display = 'grid';
             document.querySelector("#loginpage").style.display = "none";
-            document.querySelector("#test-user-id").innerText = response.message.uid
+            document.querySelector("#test-user-id").innerText = "Welcome " + response.message.email + "!"
         } else {
             document.querySelector("#loginpage").style.display = "block";
         }

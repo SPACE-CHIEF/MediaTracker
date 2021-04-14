@@ -45,21 +45,21 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 firebase.auth().onAuthStateChanged((user) => {
     //If the user is logged in, send a message to popup.js that we are logged in.
     if (user) {
-        chrome.runtime.sendMessage({"command": "stateChanged", "logged_in": true, "uid": user.uid}, (response) => {})
+        chrome.runtime.sendMessage({"command": "stateChanged", "logged_in": true, "user": user}, (response) => {})
     }
 
     return true;
 })
 
-var mediaObject = {"type": null,"title": null, "episodeInfo": null, "command": null}
+var mediaObject = {"type": null,"title": null, "episodeInfo": null, "command": null, "image": "none"}
 
 chrome.runtime.onConnect.addListener(port => {
     console.log('connected from bg ', port);
 
-    if (port.name === 'hi') {
+    if (port.name === 'port1') {
         port.postMessage(mediaObject);
     }
-  });
+});
 
 // This is the listener that waits for the contentScript to detect the movie/show and send that information back here so we can
 // access Firebase and The Movie DB API. Outside API's are not accessible from contentScripts.
@@ -87,18 +87,57 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
         var mediaTitle = message.title
         console.log("Media Title: " + mediaTitle);
         if (user) {
+            const baseImagePath = "https://image.tmdb.org/t/p/original/"
+
             if(message.type == "tv"){
                 var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/tv_shows/" + mediaTitle)
                 refLocations.child(episodeInfo).set(message.url);
                 
-                mediaObject.type = "tv"
-                mediaObject.title = mediaTitle
-                mediaObject.episodeInfo = episodeInfo
-                mediaObject.command = "mediaFound"
+                var getTvPoster = fetch(`https://api.themoviedb.org/3/search/tv?api_key=c9e5f6b44a8037f35894aef02579205a&language=en-US&page=1&query=${mediaTitle}&include_adult=false`)
+                    .then(res => {
+                        return res.json()
+                    })
+                    .then(data => {
+
+                        var imagePath = baseImagePath + data.results[0].poster_path
+                        return imagePath
+                    })
+
+                getTvPoster.then(data => {
+                    mediaObject.type = "tv"
+                    mediaObject.title = mediaTitle
+                    mediaObject.episodeInfo = episodeInfo
+                    mediaObject.command = "mediaFound"
+                    mediaObject.image = data
+                })
             }
             else if (message.type == "movie") {
                 var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/movies")
                 refLocations.child(mediaTitle).set(message.url);
+
+                var getMoviePoster = fetch(`https://api.themoviedb.org/3/search/movie?api_key=c9e5f6b44a8037f35894aef02579205a&language=en-US&query=${mediaTitle}&page=1`)
+                    .then(res => {
+                        return res.json()
+                    })
+                    .then(data => {
+
+                        var imagePath = baseImagePath + data.results[0].poster_path
+                        return imagePath
+                    })
+
+                getMoviePoster.then(data => {
+                    mediaObject.type = "movie"
+                    mediaObject.title = mediaTitle
+                    mediaObject.episodeInfo = null
+                    mediaObject.command = "mediaFound"
+                    mediaObject.image = data
+                })
+            }
+            else if (message.type == "other") {
+                mediaObject.type = "other"
+                mediaObject.title = message.title
+                mediaObject.episodeInfo = message.description
+                mediaObject.command = "mediaFound"
             }
         }
         
@@ -168,5 +207,5 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
     }
 
     /*****************************ADDING TO DATABASE*************************/
-    //return true;
+    return true;
 })

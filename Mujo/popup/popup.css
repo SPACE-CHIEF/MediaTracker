@@ -38,6 +38,10 @@ input {
 	max-width: 360px;
 }
 
+#mediaTitle {
+    margin-bottom: 0;
+}
+
 /*Login page details*/
 #loginpage {
   display: block;
@@ -47,9 +51,10 @@ input {
 
 /* for the movie art */
 .movie-art{
-  grid-column: 1;
+  /*grid-column: 1;
   grid-row: 1;
   height: 136px;
+  width: 136px;*/
   width: 136px;
 }
 /* buttons on the bottom*/

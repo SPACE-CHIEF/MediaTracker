@@ -133,6 +133,11 @@ else if (window.location.href.includes("amazon.com")) {
     }, 500, 9000)
       
 }
+else {
+    chrome.runtime.sendMessage({"type": "other","title": "Not playing.", "description": "Go to a supported website and play media to start tracking!", "command": "contentScript"}, (response) => {
+        console.log("RESPONSE RECIEVED: " + response.text);
+    })
+}
 
 function waitForElementToDisplay(selector, callback, checkFrequencyInMs, timeoutInMs) {
     var startTimeInMs = Date.now();
