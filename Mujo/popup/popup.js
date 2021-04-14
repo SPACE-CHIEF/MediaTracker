@@ -12,17 +12,31 @@ document.querySelector(".logout-btn").addEventListener("click", () => {
     logoutUser();
 })
 
+var port = chrome.runtime.connect(null, {name: 'hi'});
+
+port.onDisconnect.addListener(obj => {
+  console.log('disconnected port');
+})
+
+port.onMessage.addListener((msg) => {
+    if (msg.command == "mediaFound") {
+        console.log("mediaFound!!");
+        document.querySelector("#mediaTitle").innerText = msg.title
+        document.querySelector("#mediaInfo").innerText = msg.episodeInfo
+    }
+})
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if(message.command == "stateChanged" && message.logged_in){
         document.querySelector('.main-container').style.display = 'grid';
         document.querySelector("#loginpage").style.display = "none";
         document.querySelector("#test-user-id").innerText = message.uid
+        return true;
     }
-    else{
+    else if(message.command == "stateChanged" && !message.logged_in){
         document.querySelector("#loginpage").style.display = "block";
+        return true;
     }
-    sendResponse({"thanks": "thanks"})
-    return true;
 })
 
 function checkAuth() {

@@ -51,7 +51,15 @@ firebase.auth().onAuthStateChanged((user) => {
     return true;
 })
 
+var mediaObject = {"type": null,"title": null, "episodeInfo": null, "command": null}
 
+chrome.runtime.onConnect.addListener(port => {
+    console.log('connected from bg ', port);
+
+    if (port.name === 'hi') {
+        port.postMessage(mediaObject);
+    }
+  });
 
 // This is the listener that waits for the contentScript to detect the movie/show and send that information back here so we can
 // access Firebase and The Movie DB API. Outside API's are not accessible from contentScripts.
@@ -82,6 +90,11 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
             if(message.type == "tv"){
                 var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/tv_shows/" + mediaTitle)
                 refLocations.child(episodeInfo).set(message.url);
+                
+                mediaObject.type = "tv"
+                mediaObject.title = mediaTitle
+                mediaObject.episodeInfo = episodeInfo
+                mediaObject.command = "mediaFound"
             }
             else if (message.type == "movie") {
                 var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/movies")
@@ -155,5 +168,5 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
     }
 
     /*****************************ADDING TO DATABASE*************************/
-    return true;
+    //return true;
 })
