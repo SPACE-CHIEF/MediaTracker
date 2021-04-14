@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <link rel="stylesheet" href="popup.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -14,7 +16,8 @@
         <form>
             <div class="form-group">
                 <label for="emailID">Email address</label>
-                <input type="email" class="form-control" id="emailID" aria-describedby="emailHelp" placeholder="Enter email">
+                <input type="email" class="form-control" id="emailID" aria-describedby="emailHelp"
+                    placeholder="Enter email">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -27,11 +30,12 @@
 
     <div class="main-container" style="display: grid;">
         <img id="movie-art-img" class="movie-art" src="q.jpg">
-        <div class="popup-container" style = "display: grid;">
-            <b id ="series">Not playing.</b>
-            <b id = "season-episode">Go to a supported website and play media to start tracking!</b>
+        <div class="popup-container" style="display: grid;">
+            <b id="mediaTitle">Not playing.</b>
+            <b id="mediaInfo">Go to a supported website and play media to start tracking!</b>
+            <span id="test-user-id"></span>
         </div>
-        
+
         <div class="edit-controls">
             <a href="../main/main.html" target="_blank">
                 <button class="btn btn-dark btn-block"><i class="fa fa-home"></i> Full Screen</button>
