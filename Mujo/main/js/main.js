@@ -158,7 +158,7 @@ function getAllTVShows() {
             var posterURL = ""
             const baseImagePath = "https://image.tmdb.org/t/p/original/"
     
-            var movieID = fetch(`https://api.themoviedb.org/3/search/tv?api_key=c9e5f6b44a8037f35894aef02579205a&language=en-US&page=1&query=${key}&include_adult=false`)
+            var tvID = fetch(`https://api.themoviedb.org/3/search/tv?api_key=c9e5f6b44a8037f35894aef02579205a&language=en-US&page=1&query=${key}&include_adult=false`)
                 .then(res => {
                     return res.json()
                 })
@@ -187,7 +187,7 @@ function getAllTVShows() {
                     console.log(error);
                 })
     
-            movieID.then(data => {
+            tvID.then(data => {
                 fetch(`https://api.themoviedb.org/3/tv/${data}/credits?api_key=c9e5f6b44a8037f35894aef02579205a&language=en-US`)
                     .then(response => {
                         return response.json();
@@ -205,9 +205,38 @@ function getAllTVShows() {
                         }else{
                             cast += "Sorry cast information is not available."
                         }
-                        for (const member of crew) {
-                            if (member.known_for_department == "Directing") {
-                                addModal = 
+
+                        if (crew.length != 0) {
+                            for (const member of crew) {
+                                if (member.known_for_department == "Directing" || member.department == "Directing") {
+                                    addModal = 
+                                    `<div class="modal fade" id="mytvModal${counter}" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="myModalLabel">${keys[counter]}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p><a href="${response.data[keys[counter]]}" target="_blank">Keep watching</a></p>
+                                                    <p>Cast: ${cast} </p>
+                                                    <p>Director: ${member.name} </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`
+                                    break;
+                                }
+                            }
+                        }
+                        else{
+                            addModal = 
                                 `<div class="modal fade" id="mytvModal${counter}" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
@@ -218,9 +247,9 @@ function getAllTVShows() {
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <p><a href="${response.data[key]}" target="_blank">Keep watching</a></p>
+                                                <p><a href="${response.data[keys[counter]]}" target="_blank">Keep watching</a></p>
                                                 <p>Cast: ${cast} </p>
-                                                <p>Director: ${member.name} </p>
+                                                <p>Director/Producer information not provided.</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -229,8 +258,6 @@ function getAllTVShows() {
                                         </div>
                                     </div>
                                 </div>`
-                                break;
-                            }
                         }
                         document.querySelector("#tvshowRow").innerHTML += addModal;
                     })
