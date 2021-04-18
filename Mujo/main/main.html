@@ -42,10 +42,64 @@
 
         <div id="content" class="container-fluid p-4 p-md-5 pt-5">
             <h1 class="text-center">Movies</h1>
+            <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#addMovieModal"><i class="fa fa-plus"></i> Add Movie</button>
+            <!-- AddMovie Modal -->
+            <div class="modal fade" id="addMovieModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Movie</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addMovieForm">
+                                <div class="form-group">
+                                    <label for="manualMovieTitle">Movie Name</label>
+                                    <input type="text" class="form-control border" id="manualMovieTitle" aria-describedby="emailHelp" style="border: 2px">
+                                </div>
+                                <div class="form-group">
+                                    <label for="movieURL">Movie URL (If available)</label>
+                                    <input type="text" class="form-control border" id="movieURL">
+                                </div>
+                                <button id="addMovieButton" type="submit" class="btn btn-primary" data-dismiss="modal">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row" id="movieRow">
                 
             </div>
             <h1 class="text-center">TV Shows</h1>
+            <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#addTVModal"><i class="fa fa-plus"></i> Add TV Show</button>
+            <!-- AddTV Modal -->
+            <div class="modal fade" id="addTVModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add TV Show</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addTVShowForm">
+                                <div class="form-group">
+                                    <label for="manualMovieTitle">Show Name</label>
+                                    <input type="text" class="form-control border" id="manualTVShowTitle" aria-describedby="emailHelp" style="border: 2px">
+                                </div>
+                                <div class="form-group">
+                                    <label for="movieURL">Last watched episode URL (If available)</label>
+                                    <input type="text" class="form-control border" id="tv_episode_URL">
+                                </div>
+                                <button id="addTVShowButton" type="submit" class="btn btn-primary" data-dismiss="modal">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row" id="tvshowRow">
 
             </div>

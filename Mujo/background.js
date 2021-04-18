@@ -90,47 +90,54 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
             const baseImagePath = "https://image.tmdb.org/t/p/original/"
 
             if(message.type == "tv"){
-                var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/tv_shows/" + mediaTitle)
-                refLocations.child(episodeInfo).set(message.url);
+                
                 
                 var getTvPoster = fetch(`https://api.themoviedb.org/3/search/tv?api_key=c9e5f6b44a8037f35894aef02579205a&language=en-US&page=1&query=${mediaTitle}&include_adult=false`)
                     .then(res => {
                         return res.json()
                     })
                     .then(data => {
+                        var dataObject = {}
+                        dataObject.imagePath = baseImagePath + data.results[0].poster_path
+                        dataObject.title = data.results[0].original_name
 
-                        var imagePath = baseImagePath + data.results[0].poster_path
-                        return imagePath
+                        return dataObject
                     })
 
                 getTvPoster.then(data => {
                     mediaObject.type = "tv"
-                    mediaObject.title = mediaTitle
+                    mediaObject.title = data.title
                     mediaObject.episodeInfo = episodeInfo
                     mediaObject.command = "mediaFound"
-                    mediaObject.image = data
+                    mediaObject.image = data.imagePath
+
+                    var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/tv_shows/")
+                    refLocations.child(data.title).set(message.url);
                 })
             }
             else if (message.type == "movie") {
-                var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/movies")
-                refLocations.child(mediaTitle).set(message.url);
 
                 var getMoviePoster = fetch(`https://api.themoviedb.org/3/search/movie?api_key=c9e5f6b44a8037f35894aef02579205a&language=en-US&query=${mediaTitle}&page=1`)
                     .then(res => {
                         return res.json()
                     })
                     .then(data => {
+                        var dataObject = {}
+                        dataObject.imagePath = baseImagePath + data.results[0].poster_path
+                        dataObject.title = data.results[0].original_title
 
-                        var imagePath = baseImagePath + data.results[0].poster_path
-                        return imagePath
+                        return dataObject
                     })
 
                 getMoviePoster.then(data => {
                     mediaObject.type = "movie"
-                    mediaObject.title = mediaTitle
+                    mediaObject.title = data.title
                     mediaObject.episodeInfo = null
                     mediaObject.command = "mediaFound"
-                    mediaObject.image = data
+                    mediaObject.image = data.imagePath
+
+                    var refLocations = firebase.database().ref("users/" + user.uid + "/master_lists/movies")
+                    refLocations.child(data.title).set(message.url);
                 })
             }
             else if (message.type == "other") {
