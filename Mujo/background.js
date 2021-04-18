@@ -213,6 +213,5 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
         return true;
     }
 
-    /*****************************ADDING TO DATABASE*************************/
     return true;
 })

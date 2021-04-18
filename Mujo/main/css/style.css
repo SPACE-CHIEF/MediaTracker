@@ -5,6 +5,15 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+.zoomOnHover {
+    transition: transform .35s, box-shadow .35s;
+}
+
+.zoomOnHover:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;

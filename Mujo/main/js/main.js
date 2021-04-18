@@ -74,7 +74,7 @@ function getAllMovies() {
                     var htmlToAdd =
                         `
                         <div class="col-md-6 col-lg-4 col-xl-3 pb-4">
-                            <div class="card h-100">					
+                            <div class="zoomOnHover card h-100">					
                                 <img src="${posterURL}" class="card-img-top" alt="..."/>
                                 <div class="card-body">	
                                     <h5 class="card-title">${keys[counter]}</h5>
@@ -168,7 +168,7 @@ function getAllTVShows() {
                     var htmlToAdd =
                         `
                         <div class="col-md-6 col-lg-4 col-xl-3 pb-4">
-                            <div class="card h-100">					
+                            <div class="zoomOnHover card h-100">					
                                 <img src="${posterURL}" class="card-img-top" alt="..."/>
                                 <div class="card-body">	
                                     <h5 class="card-title">${keys[counter]}</h5>
