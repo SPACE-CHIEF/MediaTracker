@@ -130,7 +130,7 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
                     .then(data => {
                         var dataObject = {}
                         dataObject.imagePath = baseImagePath + data.results[0].poster_path
-                        dataObject.title = data.results[0].original_name
+                        dataObject.title = data.results[0].name
 
                         return dataObject
                     })
