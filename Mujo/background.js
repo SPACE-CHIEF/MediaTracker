@@ -74,7 +74,6 @@ chrome.runtime.onConnect.addListener(port => {
                 port.postMessage({"command": "addingDone"});
             }
         });
-        //port.postMessage({});
     }
 
 });
@@ -82,14 +81,6 @@ chrome.runtime.onConnect.addListener(port => {
 // access Firebase and The Movie DB API. Outside API's are not accessible from contentScripts.
 chrome.runtime.onMessage.addListener((message, sender, response) => {
 
-    /*if (message.command == "addToCustomList") {
-        var user = firebase.auth().currentUser
-        if (user) {
-            var refLocations = firebase.database().ref("users/" + user.uid + "/custom_lists/" + message.listName)
-            refLocations.child(message.title).set(message.type);
-        }
-        return true;
-    }*/
     if (message.command == "getAllCustomLists") {
         var currentUser = firebase.auth().currentUser
         if (currentUser) {

@@ -12,29 +12,6 @@ port.onMessage.addListener((message) => {
     }
 })
 
-/*document.addEventListener('click', function(e){
-    
-    if(e.target.className == "btn btn-primary addToListButton"){
-        
-        e.preventDefault()
-        var listToAddTo = document.querySelector(`#listSelect`).value
-        var title = document.querySelector(`#newMediaTitle`).value
-        var type = "null";
-    
-        if(document.getElementById(`tvRadio`).checked) {
-            type = "tv"
-        }
-        else if(document.getElementById(`movieRadio`).checked) {
-            type = "movie"
-        }
-        console.log("BUTTON EVENT LISTENER");
-        port.postMessage({"listName": listToAddTo, "command": "addToCustomList", "title": title, "type": type});
-    
-        getAllCustomLists();
-    
-        return true;
-    }
-})*/
 document.querySelector("#addToListButton").addEventListener("click", function(e) {
     e.preventDefault()
         var listToAddTo = document.querySelector(`#listSelect`).value
@@ -63,7 +40,7 @@ document.querySelector("#createListButton").addEventListener("click", function(e
         console.log("List Created");
     });
 
-    //getAllCustomLists();
+    getAllCustomLists();
 
     return true;
 })
@@ -84,7 +61,7 @@ function getAllCustomLists() {
             <option>${keys[i]}</option>`
 
             if (response.data[keys[i]] == "null") {
-                contentDiv.innerHTML += `<h3>${keys[i]}<button id="addToList${i}" type="button" class="btn btn-link" data-toggle="modal" data-target="#addToListModal${i}">Add to this list</button></h3>`
+                contentDiv.innerHTML += `<h3>${keys[i]}<button id="addToList" type="button" class="btn btn-link" data-toggle="modal" data-target="#addToListModal">Add to this list</button></h3>`
             }
             else {
                 contentDiv.innerHTML += `
