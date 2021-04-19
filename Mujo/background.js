@@ -54,17 +54,57 @@ firebase.auth().onAuthStateChanged((user) => {
 var mediaObject = {"type": null,"title": null, "episodeInfo": null, "command": null, "image": "none"}
 
 chrome.runtime.onConnect.addListener(port => {
-    console.log('connected from bg ', port);
+    console.log('Port connected from bg ', port);
 
     if (port.name === 'port1') {
         port.postMessage(mediaObject);
+        port.disconnect();
     }
-});
+    else if (port.name === "port2") {
+        port.onMessage.addListener(function(message) {
+            if (message.command == "addToCustomList"){
+                console.log("OK I WILL ADD TO THE LIST.");
 
+                var user = firebase.auth().currentUser
+                if (user) {
+                    console.log("message.listName is ", message.listName);
+                    var refLocations = firebase.database().ref("users/" + user.uid + "/custom_lists/" + message.listName)
+                    refLocations.child(message.title).set(message.type);
+                }
+                port.postMessage({"command": "addingDone"});
+            }
+        });
+        //port.postMessage({});
+    }
+
+});
 // This is the listener that waits for the contentScript to detect the movie/show and send that information back here so we can
 // access Firebase and The Movie DB API. Outside API's are not accessible from contentScripts.
 chrome.runtime.onMessage.addListener((message, sender, response) => {
 
+    /*if (message.command == "addToCustomList") {
+        var user = firebase.auth().currentUser
+        if (user) {
+            var refLocations = firebase.database().ref("users/" + user.uid + "/custom_lists/" + message.listName)
+            refLocations.child(message.title).set(message.type);
+        }
+        return true;
+    }*/
+    if (message.command == "getAllCustomLists") {
+        var currentUser = firebase.auth().currentUser
+        if (currentUser) {
+            firebase.database().ref("users/" + currentUser.uid + "/custom_lists").once("value").then(function(snapshot) {
+                response({"data": snapshot.val()})
+            })
+        }
+    }
+    if (message.command == "createCustomList") {
+        var user = firebase.auth().currentUser
+        if (user) {
+            var refLocations = firebase.database().ref("users/" + user.uid + "/custom_lists/")
+            refLocations.child(message.listName).set("null");
+        }
+    }
     if (message.command == "getMovies") {
         var currentUser = firebase.auth().currentUser
         if (currentUser) {
