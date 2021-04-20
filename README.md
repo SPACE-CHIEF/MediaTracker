@@ -1,13 +1,12 @@
 # MediaTracker
-### Beastify Example
 
-This repository contains the tutorial for Beastify
-found at https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_second_WebExtension
+Web extension designed to passively gather Media information on the following 
+websites: 
 
+* Netflix
+* Amazon Prime Video
+* Hulu
+* Crunchyroll
 
-To run this I suggest you install Node.js
-go to https://nodejs.org/en/ after downloading the installation
-file run it and make sure you select the install reuired tools automatically.
-
-after installing that then run ```npm install --global web-ext```
-then cd into the cloned repository and type ```web-ext run```
+You can view the Movies and Shows that you have watched. You can create custom lists
+to keep track of Movies and Shows that you want to watch.
