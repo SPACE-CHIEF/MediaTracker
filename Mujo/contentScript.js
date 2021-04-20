@@ -100,7 +100,6 @@ else if (window.location.href.includes("amazon.com")) {
                 episodeData = document.querySelector(".atvwebplayersdk-subtitle-text").innerText
                 //If episodeData is null, you are watching a Movie!
                 if (episodeData.length == 0) {
-                    alert("You are currently watching a MOVIE!" + "\nMovie title: " + title.innerText)
                     chrome.runtime.sendMessage({"type": "movie","title": title.innerText, "command": "contentScript", "url": currURL}, (response) => {
                         console.log("RESPONSE RECIEVED: " + response.text);
                     })
