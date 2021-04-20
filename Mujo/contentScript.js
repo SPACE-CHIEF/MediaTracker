@@ -22,15 +22,12 @@ if (window.location.href.includes("netflix.com")) {
             episodeNum = episodeData.substring(episodeData.indexOf("E")+1)
 
             episodeName = episodeData[1].innerHTML
-
-            alert("You are currently watching a TV SHOW!" + title + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
             
             chrome.runtime.sendMessage({"type": "tv","title": title, "season": seasonNum, "episode": episodeNum, "command": "contentScript", "url": currURL}, (response) => {
                 console.log("RESPONSE RECIEVED: " + response.text);
             })
         }
         else{
-            alert("You are currently watching a MOVIE!" + "\nMovie title: " + title)
             chrome.runtime.sendMessage({"type": "movie","title": title, "command": "contentScript", "url": currURL}, (response) => {
                 console.log("RESPONSE RECIEVED: " + response.text);
             })
@@ -55,8 +52,6 @@ else if (window.location.href.includes("crunchyroll.com")) {
         }
         
         episodeName = document.querySelector("#showmedia_about_info h4").innerText
-
-        alert("You are currently watching " + title.innerText + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
         
         chrome.runtime.sendMessage({"type": "tv","title": title.innerText, "season": seasonNum, "episode": episodeNum, "command": "contentScript", "url": currURL}, (response) => {
             console.log("RESPONSE RECIEVED: " + response.text);
@@ -65,9 +60,6 @@ else if (window.location.href.includes("crunchyroll.com")) {
 }
 else if (window.location.href.includes("hulu.com/watch")) {
 
-    //Alternative: PlayerMetadata PlayerMetadata--collapsed OnNowMetadata
-    // .PlayerMetadata__titleText .ClampedText span
-    // .PlayerMetadata.PlayerMetadata--collapsed.OnNowMetadata
     console.log("HULU");
     waitForElementToDisplay(".PlayerMetadata__titleText .ClampedText span", function() {
         
@@ -82,15 +74,12 @@ else if (window.location.href.includes("hulu.com/watch")) {
                 episodeNum = episodeData.substring(episodeData.indexOf(seasonNum) + 1).match(/\d+/)[0]
 
                 episodeName = document.querySelector(".PlayerMetadata__subTitleText").innerText
-
-                alert("You are currently watching a TV Show!\nTitle: " + title + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
                 
                 chrome.runtime.sendMessage({"type": "tv","title": title, "season": seasonNum, "episode": episodeNum, "command": "contentScript", "url": currURL}, (response) => {
                     console.log("RESPONSE RECIEVED: " + response.text);
                 })
             }
             else if (arrayForDetection.length < 4){
-                alert("You are currently watching a MOVIE!" + "\nMovie title: " + title)
                 chrome.runtime.sendMessage({"type": "movie","title": title, "command": "contentScript", "url": currURL}, (response) => {
                     console.log("RESPONSE RECIEVED: " + response.text);
                 })
@@ -119,8 +108,6 @@ else if (window.location.href.includes("amazon.com")) {
                 else{
                     seasonNum = episodeData.match(/\d+/)[0]
                     episodeNum = episodeData.substring(episodeData.indexOf(seasonNum) + 1).match(/\d+/)[0]
-                
-                    alert("You are currently watching a TV Show!\nTitle: " + title.innerText + "\nSeason: " + seasonNum + "\nEpisode: " + episodeNum + "\nName: " + episodeName)
                         
                     chrome.runtime.sendMessage({"type": "tv","title": title.innerText, "season": seasonNum, "episode": episodeNum, "command": "contentScript", "url": currURL}, (response) => {
                         console.log("RESPONSE RECIEVED: " + response.text);
