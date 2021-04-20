@@ -29,9 +29,10 @@ port.onMessage.addListener((msg) => {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if(message.command == "stateChanged" && message.logged_in){
-        document.querySelector('.main-container').style.display = 'grid';
-        document.querySelector("#loginpage").style.display = "none";
-        document.querySelector("#test-user-id").innerText = message.user.email
+      document.querySelector('.main-container').style.display = 'grid';
+      document.querySelector('.popup-container').style.display = 'grid';
+      document.querySelector("#loginpage").style.display = "none";
+      document.querySelector("#test-user-id").innerText = message.user.email
         return true;
     }
     else if(message.command == "stateChanged" && !message.logged_in){
@@ -44,9 +45,10 @@ function checkAuth() {
     chrome.runtime.sendMessage({"command" : "checkAuth"}, (response) => {
         console.log(response);
         if (response.status == 'success') {
-            document.querySelector('.main-container').style.display = 'grid';
-            document.querySelector("#loginpage").style.display = "none";
-            document.querySelector("#test-user-id").innerText = "Welcome " + response.message.email + "!"
+          document.querySelector('.main-container').style.display = 'grid';
+          document.querySelector('.popup-container').style.display = 'grid';
+          document.querySelector("#loginpage").style.display = "none";
+          document.querySelector("#test-user-id").innerText = "Welcome " + response.message.email + "!"
         } else {
             document.querySelector("#loginpage").style.display = "block";
         }
@@ -62,9 +64,10 @@ function loginUser() {
     chrome.runtime.sendMessage({"command": "loginUser", "email": email, "password": password}, (response) => {
         console.log(response);
         if (response.status == 'success') {
-            document.querySelector("#loginpage").style.display = "none";
-            document.querySelector('.main-container').style.display = 'grid';
-            
+          document.querySelector("#loginpage").style.display = "none";
+          document.querySelector('.main-container').style.display = 'grid';
+          document.querySelector('.popup-container').style.display = 'grid';
+
         } else {
             console.log("USER NOT AUTHENTICATED. from loginUser");
         }
@@ -79,9 +82,10 @@ function createUser() {
     chrome.runtime.sendMessage({"command": "createUser", "userId": newUserID, "newPass": newPassword}, (response) => {
         console.log(response);
         if (response.status == "success") {
-            document.querySelector("#loginpage").style.display = "none";
-            document.querySelector('.main-container').style.display = 'grid';
-            
+          document.querySelector("#loginpage").style.display = "none";
+          document.querySelector('.main-container').style.display = 'grid';
+          document.querySelector('.popup-container').style.display = 'grid';
+
         } else {
             console.log("USER NOT AUTHENTICATED. from createUser");
         }
@@ -89,8 +93,9 @@ function createUser() {
 }
 
 function logoutUser() {
-    document.querySelector('.main-container').style.display = 'none';
-    document.querySelector("#loginpage").style.display = "block";
+  document.querySelector('.main-container').style.display = 'none';
+  document.querySelector('.popup-container').style.display = 'none';
+  document.querySelector("#loginpage").style.display = "block";
 
     chrome.runtime.sendMessage({"command": "logoutUser"}, (response) => {
         console.log(response);
