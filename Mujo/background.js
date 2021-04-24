@@ -179,7 +179,7 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
             }
         }
         
-        response({"text": "Succesful operation brother."})
+        response({"text": "contentScript message ----------- PASSED"})
     }
 
     /*****************************AUTHENTICATION HANDLING*************************/
