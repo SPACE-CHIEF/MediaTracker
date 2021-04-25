@@ -83,6 +83,9 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
 
     if (message.command == "getAllCustomLists") {
         var currentUser = firebase.auth().currentUser
+        if(message.test){
+            response({"text":"getAllCustomLists message recieved"})
+        }
         if (currentUser) {
             firebase.database().ref("users/" + currentUser.uid + "/custom_lists").once("value").then(function(snapshot) {
                 response({"data": snapshot.val()})
@@ -91,6 +94,9 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
     }
     if (message.command == "createCustomList") {
         var user = firebase.auth().currentUser
+        if(message.test){
+            response({"text":"createCustomList message recieved"})
+        }
         if (user) {
             var refLocations = firebase.database().ref("users/" + user.uid + "/custom_lists/")
             refLocations.child(message.listName).set("null");
@@ -98,6 +104,9 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
     }
     if (message.command == "getMovies") {
         var currentUser = firebase.auth().currentUser
+        if(message.test){
+            response({"text":"getMovies message recieved"})
+        }
         if (currentUser) {
             firebase.database().ref("users/" + currentUser.uid + "/master_lists/movies").once("value").then(function(snapshot) {
                 response({"data": snapshot.val()})
@@ -106,6 +115,9 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
     }
     if (message.command == "getTV") {
         var currentUser = firebase.auth().currentUser
+        if(message.test){
+            response({"text":"getTV message recieved"})
+        }
         if (currentUser) {
             firebase.database().ref("users/" + currentUser.uid + "/master_lists/tv_shows").once("value").then(function(snapshot) {
                 response({"data": snapshot.val()})
@@ -216,12 +228,13 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
             });
-        
+        response({"text": "loginUser message recieved"})
         return true;
     }
     if(message.command == "logoutUser"){
         firebase.auth().signOut().then(() => {
             // Log-out successful
+            response({"text": "logOut message recieved"})
         }).catch((error) => {
             console.log(error)
         });
